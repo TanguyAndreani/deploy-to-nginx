@@ -16,7 +16,7 @@
         dest: /etc/nginx/nginx.conf
     - name: copy the nginx config file and restart nginx
       copy:
-        src: ./conf/conf.d/default.conf
+        src: ./conf/sites-available/default
         dest: /etc/nginx/sites-available/default
       become: yes
     - name: create symlink
