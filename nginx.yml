@@ -1,0 +1,49 @@
+---
+- hosts: all
+  tasks:
+    - name: Create a login user
+      user:
+        name: nginx
+        state: present
+        shell: /bin/bash       # Defaults to /bin/bash
+        system: no             # Defaults to no
+        createhome: no        # Defaults to yes
+    - name: ensure nginx is at the latest version
+      apt: name=nginx state=latest
+    - name: copy the nginx config file and restart nginx
+      copy:
+        src: ./conf/nginx.conf
+        dest: /etc/nginx/nginx.conf
+    - name: copy the nginx config file and restart nginx
+      copy:
+        src: ./conf/conf.d/default.conf
+        dest: /etc/nginx/sites-available/default
+      become: yes
+    - name: create symlink
+      file:
+        src: /etc/nginx/sites-available/default
+        dest: /etc/nginx/sites-enabled/default
+        state: link 
+      become: yes
+    - name: restart nginx
+      service:
+        name: nginx
+        state: restarted
+      become: yes
+    - name: Install certbot
+      shell: apt install -y certbot python3-certbot-nginx
+    - name: Create letsencrypt certificate
+      shell: letsencrypt --nginx -n --redirect -d ftp.cyberpunked.me -m hello@tanguyandreani.me --agree-tos
+      args:
+        creates: /etc/letsencrypt/live/ftp.cyberpunked.me
+    - name: copy content
+      synchronize:
+        src: "./content/"
+        dest: "/usr/share/nginx/html"
+        recursive: yes
+        delete: yes
+    - name: restart nginx
+      service:
+        name: nginx
+        state: restarted
+      become: yes
