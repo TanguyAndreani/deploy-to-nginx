@@ -33,6 +33,6 @@ variable "nc_clientip" {
   description = "Namecheap API whitelisted IP"
 }
 
-variable "domain" {
+variable "nc_domain" {
   description = "Domain name to use"
 }

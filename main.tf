@@ -37,7 +37,7 @@ resource "digitalocean_droplet" "web" {
 }
 
 resource "namecheap_domain_records" "domain" {
-  domain = var.domain
+  domain = var.nc_domain
   mode = "MERGE"
 
   record {
