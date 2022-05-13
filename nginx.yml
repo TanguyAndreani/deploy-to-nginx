@@ -30,18 +30,16 @@
         name: nginx
         state: restarted
       become: yes
+    - name: copy content
+      copy:
+        src: "./content/index.html"
+        dest: "/usr/share/nginx/html/index.html"
     - name: Install certbot
       shell: apt install -y certbot python3-certbot-nginx
     - name: Create letsencrypt certificate
       shell: letsencrypt --nginx -n --redirect -d ftp.cyberpunked.me -m hello@tanguyandreani.me --agree-tos
-      args:
-        creates: /etc/letsencrypt/live/ftp.cyberpunked.me
-    - name: copy content
-      synchronize:
-        src: "./content/"
-        dest: "/usr/share/nginx/html"
-        recursive: yes
-        delete: yes
+      #args:
+      #  creates: /etc/letsencrypt/live/ftp.cyberpunked.me
     - name: restart nginx
       service:
         name: nginx
