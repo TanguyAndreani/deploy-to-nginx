@@ -16,3 +16,14 @@ launch `terraform apply` immediately, but the Ansible playbook
 in `nginx.yml` must wait for DNS records to propagate.
 
 I could make it work with a two servers setup.
+
+## Virtualenv
+
+I usually install ansible using virtualenv, just like that:
+
+```bash
+cd deploy-to-nginx
+virtualenv .
+source bin/activate
+pip instal ansible
+```
