@@ -2,3 +2,8 @@
 inventory.cfg
 *.tfstate*
 *.lock.hcl
+
+
+bin
+lib
+pyvenv.cfg
